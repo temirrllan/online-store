@@ -1,0 +1,366 @@
+// Файл: src/pages/CartPage/CartPage.jsx
+import React, { useState, useEffect } from "react";
+import styles from "./CartPage.module.scss";
+import {
+  useGetCartItemsQuery,
+  useRemoveFromCartMutation,
+  useUpdateCartQuantityMutation,
+  useCreateOrderMutation,
+} from "../../redux/api/apiSlice";
+import Loading from "../../components/UI/Loading";
+import Error from "../../components/UI/Error";
+
+function CartPage() {
+  const { data, error, isLoading } = useGetCartItemsQuery();
+  const [removeFromCart] = useRemoveFromCartMutation();
+  const [updateCartQuantity] = useUpdateCartQuantityMutation();
+  const [createOrder, { isLoading: isOrderCreating }] = useCreateOrderMutation();
+
+  const [cartItems, setCartItems] = useState([]);
+  const [deliveryType, setDeliveryType] = useState("free");
+
+  // Состояния для оформления заказа (модальное окно и адрес)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [home, setHome] = useState("");
+  const [flat, setFlat] = useState("");
+  const [comment, setComment] = useState("");
+
+  const [loadingProductId, setLoadingProductId] = useState(null);
+
+  useEffect(() => {
+    if (data?.cart?.products) {
+      const mapped = data.cart.products.map((p) => ({
+        productId: p.productId,
+        productName: p.productName,
+        productImage: p.productImage,
+        oldPrice: p.oldPrice,
+        newPrice: p.newPrice,
+        size: p.size || "XL",
+        inStock: p.inStock ?? true,
+        quantity: p.quantity,
+        checked: false,
+      }));
+      setCartItems(mapped);
+    }
+  }, [data]);
+
+  // Обработчики изменения количества
+  const handleDecreaseQuantity = async (productId, currentQuantity) => {
+    if (currentQuantity <= 1) return;
+    try {
+      setLoadingProductId(productId);
+      await updateCartQuantity({ productId, quantity: currentQuantity - 1 }).unwrap();
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: currentQuantity - 1 }
+            : item
+        )
+      );
+    } catch (err) {
+      console.error("Ошибка уменьшения количества:", err);
+    } finally {
+      setLoadingProductId(null);
+    }
+  };
+
+  const handleIncreaseQuantity = async (productId, currentQuantity) => {
+    try {
+      setLoadingProductId(productId);
+      await updateCartQuantity({ productId, quantity: currentQuantity + 1 }).unwrap();
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: currentQuantity + 1 }
+            : item
+        )
+      );
+    } catch (err) {
+      console.error("Ошибка увеличения количества:", err);
+    } finally {
+      setLoadingProductId(null);
+    }
+  };
+
+  // Удаление товара
+  const handleDelete = async (productId) => {
+    try {
+      await removeFromCart(productId).unwrap();
+      setCartItems((prev) => prev.filter((item) => item.productId !== productId));
+    } catch (err) {
+      console.error("Ошибка при удалении товара:", err);
+    }
+  };
+
+  // Расчёт сумм
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + (item.newPrice || item.oldPrice || 0) * item.quantity,
+    0
+  );
+  const discount = 20.0;
+  const deliveryCost = deliveryType === "free" ? 0.0 : 9.99;
+  const total = subtotal - discount + deliveryCost;
+
+  // Оформление заказа с перенаправлением, если пришёл paymentUrl
+  const handleSubmitOrder = async (e) => {
+    e.preventDefault();
+
+    try {
+      const items = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+
+      const result = await createOrder({
+        items,
+        street,
+        city,
+        home,
+        flat,
+        comment,
+        total,
+      }).unwrap();
+
+      console.log("Заказ успешно создан:", result);
+
+      // Если сервер вернул paymentUrl, перенаправляем на страницу покупки
+      if (result.paymentUrl) {
+        window.location.href = result.paymentUrl;
+        return;
+      }
+
+      alert("Заказ успешно создан!");
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error("Ошибка создания заказа:", err);
+      alert("Ошибка при создании заказа");
+    }
+  };
+
+  const handleCheckout = () => {
+    if (!cartItems.length) {
+      alert("В корзине нет товаров для оформления");
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
+  if (isLoading) return <Loading />;
+  if (error) return <Error message="Ошибка загрузки корзины" />;
+
+  return (
+    <div className={styles.cartPage}>
+      <div className={styles.container}>
+        <h1 className={styles.pageTitle}>Cart</h1>
+
+        <div className={styles.mainContent}>
+          {/* Левая колонка – список товаров */}
+          <div className={styles.leftColumn}>
+            {cartItems.map((item) => (
+              <div key={item.productId} className={styles.cartItem}>
+                <div className={styles.itemInfo}>
+                  <img
+                    src={item.productImage}
+                    alt={item.productName}
+                    className={styles.itemImage}
+                  />
+                  <div className={styles.itemDetails}>
+                    <div className={styles.titleRow}>
+                      <span className={styles.itemName}>
+                        {item.productName}
+                      </span>
+                    </div>
+                    <div className={styles.paramRow}>
+                      <span className={styles.itemSize}>
+                        Размер: {item.size}
+                      </span>
+                      {item.inStock ? (
+                        <span className={styles.inStock}>In Stock</span>
+                      ) : (
+                        <span className={styles.outOfStock}>
+                          Out of Stock
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.quantityRow}>
+                      <button
+                        onClick={() =>
+                          handleDecreaseQuantity(item.productId, item.quantity)
+                        }
+                        disabled={loadingProductId === item.productId}
+                      >
+                        –
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        onClick={() =>
+                          handleIncreaseQuantity(item.productId, item.quantity)
+                        }
+                        disabled={loadingProductId === item.productId}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.priceCol}>
+                  ${(item.newPrice || item.oldPrice).toFixed(2)}
+                </div>
+
+                <div className={styles.actionsCol}>
+                  <button
+                    className={styles.deleteBtn}
+                    onClick={() => handleDelete(item.productId)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Правая колонка – блок Delivery, Промокод, Итог */}
+          <div className={styles.rightColumn}>
+            <div className={styles.deliveryBlock}>
+              <h3>Delivery</h3>
+              <div className={styles.deliveryBtns}>
+                <button
+                  className={`${styles.deliveryBtn} ${
+                    deliveryType === "free" ? styles.activeDelivery : ""
+                  }`}
+                  onClick={() => setDeliveryType("free")}
+                >
+                  Free
+                </button>
+                <button
+                  className={`${styles.deliveryBtn} ${
+                    deliveryType === "express" ? styles.activeDelivery : ""
+                  }`}
+                  onClick={() => setDeliveryType("express")}
+                >
+                  Express: $9.99
+                </button>
+              </div>
+              <div className={styles.deliveryDate}>
+                Delivery June 24, 2020
+              </div>
+            </div>
+
+            <div className={styles.promoBlock}>
+              <h3>Promocode</h3>
+              <div className={styles.promoRow}>
+                <input type="text" placeholder="Enter code" />
+                <button>Apply</button>
+              </div>
+            </div>
+
+            <div className={styles.summaryBlock}>
+              <div className={styles.summaryRow}>
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span>20% discount</span>
+                <span>-$20.00</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span>Delivery</span>
+                <span>
+                  {deliveryType === "free" ? "$0.00" : "$9.99"}
+                </span>
+              </div>
+              <div className={`${styles.summaryRow} ${styles.totalRow}`}>
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div className={styles.btnBlock}>
+              <button className={styles.checkoutBtn} onClick={handleCheckout}>
+                Proceed to checkout
+              </button>
+              <button className={styles.continueBtn}>
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {isModalOpen && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Оформить заказ</h2>
+            <form onSubmit={handleSubmitOrder}>
+              <div className={styles.formGroup}>
+                <label>Улица</label>
+                <input
+                  type="text"
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                  required
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Город</label>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  required
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Дом</label>
+                <input
+                  type="text"
+                  value={home}
+                  onChange={(e) => setHome(e.target.value)}
+                  required
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Квартира</label>
+                <input
+                  type="text"
+                  value={flat}
+                  onChange={(e) => setFlat(e.target.value)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Комментарий</label>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+              </div>
+              <div className={styles.totalBlock}>
+                <span>Сумма заказа:</span>
+                <strong>${total.toFixed(2)}</strong>
+              </div>
+              <div className={styles.modalButtons}>
+                <button type="button" onClick={() => setIsModalOpen(false)}>
+                  Отмена
+                </button>
+                <button type="submit" disabled={isOrderCreating}>
+                  {isOrderCreating ? "Создание..." : "Создать заказ"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default CartPage;

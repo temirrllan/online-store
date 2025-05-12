@@ -1,0 +1,23 @@
+/* src/components/Header/DesktopNav.module.scss */
+$text: #333;
+$primary: #8546f3;
+$transition: 0.3s;
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  @media (max-width: 1200px) { display: none; }
+}
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: $text;
+  text-decoration: none;
+  transition: color $transition, transform $transition;
+  &:hover {
+    color: $primary;
+    transform: translateY(-1px);
+  }
+}
+.icon { font-size: 1.2rem; }

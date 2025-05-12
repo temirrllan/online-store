@@ -1,0 +1,15 @@
+/* Файл: frontend/src/assets/scss/global.scss */
+
+/* Пример мини-ресета и каких-то общих правил */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    background-color: #fff;
+    color: #000;
+  }
+  

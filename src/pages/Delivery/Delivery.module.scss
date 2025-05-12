@@ -1,0 +1,117 @@
+@use "sass:color";
+
+// Цветовые переменные
+$accent:        #6366f1;
+$accent-dark:   color.scale($accent, $lightness: -10%);
+$bg-page:       #f9fafb;
+$card-bg:       #ffffff;
+$border:        #e5e7eb;
+$text-dark:     #111827;
+$text-gray:     #6b7280;
+
+// Стили страницы
+.deliveryPage {
+  // background: $bg-page;
+  min-height: calc(100vh - 64px); // поправьте под ваш header
+  padding: 24px;
+
+  .breadcrumbs {
+    font-size: 0.875rem;
+    color: $text-gray;
+    margin-bottom: 16px;
+  }
+}
+
+// Заголовок и кнопка
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  .title {
+    font-size: 1.5rem;
+    color: $text-dark;
+    margin: 0;
+  }
+
+  .addAddressBtn {
+    background: $accent;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: $accent-dark;
+    }
+  }
+}
+
+// Сетка карточек
+.addressContainer {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+// Одиночная карточка
+.addressCard {
+  background: $card-bg;
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 16px;
+  width: calc(50% - 8px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+
+  .name {
+    font-weight: 600;
+    color: $text-dark;
+    margin-bottom: 8px;
+  }
+
+  .line,
+  .phone {
+    font-size: 0.9rem;
+    color: $text-gray;
+    line-height: 1.4;
+  }
+
+  .phone {
+    margin: 8px 0;
+  }
+
+  .actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+
+    .actionLink {
+      background: transparent;
+      border: none;
+      color: $accent;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba($accent, 0.1);
+      }
+    }
+  }
+}
+
+// Адаптация под мобилы
+@media (max-width: 768px) {
+  .addressContainer {
+    flex-direction: column;
+  }
+  .addressCard {
+    width: 100%;
+  }
+}

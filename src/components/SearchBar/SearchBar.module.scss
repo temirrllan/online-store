@@ -1,0 +1,53 @@
+  // File: frontend/src/components/SearchBar/SearchBar.module.scss
+
+  .form {
+    position: relative;
+    width: 100%;
+    max-width: 400px; // по необходимости
+    margin: 0;
+  }
+
+  .iconBtn,
+  .resetBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #555;
+  }
+
+  .iconBtn {
+    left: 0.75rem;
+  }
+
+  .resetBtn {
+    right: 0.75rem;
+  }
+
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .input {
+    width: 100%;
+    padding: 0.75rem 2.5rem;  // учтём место под иконки
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.2s;
+    font-size: 1rem;
+    color: #333;
+
+    &::placeholder {
+      color: #aaa;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #4f46e5; // ваш primary-color
+    }
+  }

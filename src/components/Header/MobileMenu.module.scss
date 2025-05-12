@@ -1,0 +1,40 @@
+/* src/components/Header/MobileMenu.module.scss */
+$primary: #8546f3;
+$secondary: #5a31a2;
+$transition: 0.3s;
+
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 50;
+}
+.menu {
+  position: fixed; top: 0; left: 0;
+  width: 80%; max-width: 300px; height: 100%;
+  background: linear-gradient(135deg, $primary, $secondary);
+  transform: translateX(-100%);
+  transition: transform $transition;
+  z-index: 100;
+  &.open { transform: translateX(0); }
+}
+.content {
+  padding: 1rem; color: #fff; height: 100%;
+  display: flex; flex-direction: column;
+}
+.close {
+  background: none; border: none;
+  font-size: 1.5rem; color: #fff;
+  margin-left: auto; cursor: pointer;
+}
+.nav {
+  margin-top: 2rem; display: flex;
+  flex-direction: column; gap: 1rem;
+}
+.item {
+  display: flex; align-items: center; gap: 0.6rem;
+  text-decoration: none; color: #fff;
+  padding: 0.6rem; border-radius: 4px;
+  transition: background $transition;
+  &:hover { background: rgba(255,255,255,0.15); }
+}
+.icon { font-size: 1.3rem; }

@@ -1,0 +1,661 @@
+/* Файл: src/pages/CartPage/CartPage.module.scss */
+
+/* Определяем переменные */
+$gray-border:    #e2e2e2;
+$gray-light:     #f8f8f8;
+$blue-brand:     #5a31a2;
+$blue-hover:     #753fd1;
+$green-stock:    #34c759;
+$red-delete:     #ff3b30;
+$black-text:     #333;
+
+/* Анимация появления */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cartPage {
+  /* Запретить уход за пределы экрана */
+  overflow-x: hidden;
+  background-color: #fff;
+  min-height: 100vh;
+  color: $black-text;
+  font-family: Arial, sans-serif;
+  padding-bottom: 40px;
+
+  /* Контейнер фиксированной ширины */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.5s ease-out;
+  }
+// === Пустой стейт ===
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+}
+.emptyCard {
+  text-align: center;
+  animation: fadeIn 0.4s ease-out;
+}
+.emptyImage {
+  width: 180px;
+  margin-bottom: 1.5rem;
+  opacity: 0.6;
+}
+.emptyCard h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #555;
+}
+.emptyCard p {
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+  color: #777;
+}
+.goToCatalogBtn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #6f3dc7;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+  &:hover {
+    background-color: #5a31a2;
+  }
+}
+  .mainContent {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+
+    /* Левая колонка – список товаров */
+    .leftColumn {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .cartItem {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        background-color: #fff;
+        animation: fadeIn 0.3s ease-out;
+        transition: box-shadow 0.3s;
+
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .itemInfo {
+          display: flex;
+          gap: 1rem;
+
+          .itemImage {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 8px;
+          }
+
+          .itemDetails {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+
+            .itemGap {
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+            }
+
+            .titleRow {
+              .itemName {
+                font-size: 1rem;
+                font-weight: 400;
+                color: #585757;
+              }
+            }
+
+            .paramRow {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              font-size: 0.9rem;
+
+              .oldPrice {
+                color: #969696;
+                font-size: 13px;
+              }
+
+              .inStock {
+                color: $green-stock;
+                font-weight: 500;
+              }
+
+              .outOfStock {
+                color: $red-delete;
+              }
+            }
+
+            .quantityRow {
+              display: flex;
+              align-items: center;
+              font-size: 13px;
+              color: #585757;
+              width: 80px;
+              justify-content: space-around;
+              border: 1px solid #969696;
+              border-radius: 10px;
+
+              button {
+                width: 30px;
+                height: 30px;
+                background: none;
+                border: none;
+                color: #969696;
+                font-size: 15px;
+              }
+            }
+          }
+        }
+
+        .itemsGap {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .priceCol {
+          font-size: 1rem;
+          font-weight: 500;
+          text-align: right;
+          padding: 0 1rem;
+          color: #1C1C1C;
+        }
+
+        .actionsCol {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          button {
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s;
+
+            &.deleteBtn {
+              color: #969696;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+
+    /* Правая колонка – доставка, промокод и итог */
+    .rightColumn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .deliveryBlock {
+        background-color: #fff;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 1rem;
+
+        .tabContainer {
+          display: inline-flex;
+          position: relative;
+          background-color: $gray-light;
+          border-radius: 10px;
+          width: 240px;
+          padding: 3px;
+        }
+
+        .radioInput {
+          display: none;
+        }
+
+        .labels {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          position: relative;
+          z-index: 1;
+        }
+
+        .tab {
+          flex: 1;
+          text-align: center;
+          cursor: pointer;
+          color: #333;
+          font-size: 0.9rem;
+          padding: 5px 0;
+          white-space: nowrap;
+          border-radius: 8px;
+          transition: color 0.2s ease;
+        }
+
+        .glider {
+          position: absolute;
+          top: 3px;
+          left: 3px;
+          width: 117px;
+          height: calc(100% - 6px);
+          background-color: #fff;
+          border-radius: 8px;
+          transition: transform 0.3s ease;
+          z-index: 0;
+        }
+
+        input[id="radioFree"]:checked ~ .glider {
+          transform: translateX(0);
+        }
+        input[id="radioExpress"]:checked ~ .glider {
+          transform: translateX(117px);
+        }
+        input[id="radioFree"]:checked ~ .labels label[for="radioFree"],
+        input[id="radioExpress"]:checked ~ .labels label[for="radioExpress"] {
+          color: #000;
+        }
+
+        h3 {
+          margin: 0;
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+        .deliveryDate {
+          font-size: 0.85rem;
+          color: #777;
+        }
+      }
+
+      .promoBlock {
+        background-color: #fff;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        padding: 1rem;
+
+        h3 {
+          margin: 0;
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .promoRow {
+          display: flex;
+          gap: 0.5rem;
+
+          input {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid $gray-border;
+            border-radius: 6px;
+          }
+          button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border: 1px solid $blue-brand;
+            background-color: $blue-brand;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+
+            &:hover {
+              background-color: $blue-hover;
+            }
+          }
+        }
+      }
+
+      .summaryBlock {
+        background-color: #fff;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .summaryRow {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.95rem;
+        }
+        .dottedLine {
+          border: none;
+          border-bottom: 1px dotted #ccc;
+          width: 100%;
+        }
+        .totalRow {
+          margin-top: 0.5rem;
+          font-weight: bold;
+          font-size: 1rem;
+        }
+      }
+
+      .btnBlock {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .checkoutBtn {
+          padding: 0.75rem 1rem;
+          background-color: $blue-brand;
+          color: #fff;
+          border-radius: 8px;
+          border: none;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background-color 0.2s, transform 0.2s;
+
+          &:hover {
+            background-color: $blue-hover;
+            transform: translateY(-1px);
+          }
+        }
+
+        .continueBtn {
+          padding: 0.75rem 1rem;
+          background-color: #fff;
+          color: $blue-brand;
+          font-size: 1rem;
+          border: 1px solid $blue-brand;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: $gray-light;
+          }
+        }
+      }
+    }
+  }
+
+  /* Модальное окно */
+  .modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease-out;
+  }
+  .modalContent {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    animation: fadeIn 0.3s ease-out;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .formGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        label {
+          font-weight: 500;
+        }
+
+        input,
+        textarea {
+          padding: 0.5rem;
+          border: 1px solid $gray-border;
+          border-radius: 6px;
+          transition: border-color 0.2s;
+
+          &:focus {
+            border-color: $blue-brand;
+          }
+        }
+      }
+
+      .totalBlock {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.95rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid $gray-border;
+      }
+
+      .modalButtons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        button {
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+        button[type="button"] {
+          background-color: #ccc;
+          &:hover {
+            background-color: #bbb;
+          }
+        }
+        button[type="submit"] {
+          background-color: $blue-brand;
+          color: #fff;
+          &:hover {
+            background-color: $blue-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ---------- Планшеты и небольшие экраны (≤768px) ---------- */
+@media (max-width: 768px) {
+  .cartPage {
+    .container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0 0.75rem;
+    }
+    .pageTitle {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid $gray-border;
+      padding-bottom: 0.5rem;
+    }
+    .mainContent {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .leftColumn {
+      .cartItem {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        border: none;
+        border-bottom: 1px solid $gray-border;
+        padding: 0.75rem 0;
+      }
+      .itemInfo {
+        display: flex;
+        gap: 0.75rem;
+        .itemImage {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      .itemDetails {
+        .titleRow .itemName { font-size: 1rem; }
+        .paramRow { gap: 0.5rem; font-size: 0.85rem; }
+        .quantityRow {
+          margin-top: 0.5rem;
+          gap: 0.5rem;
+          button { width: 28px; height: 28px; font-size: 14px; }
+        }
+      }
+      .itemsGap {
+        justify-content: space-between;
+        .priceCol { font-size: 1rem; }
+        .actionsCol button { font-size: 13px; }
+      }
+    }
+    .rightColumn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      .deliveryBlock,
+      .promoBlock,
+      .summaryBlock { padding: 0.75rem; }
+      .deliveryBlock {
+        .tabContainer { width: 100%; }
+        .labels .tab { font-size: 0.85rem; }
+        .glider { width: calc(50% - 6px); }
+        .deliveryDate { font-size: 0.8rem; }
+      }
+      .promoBlock .promoRow {
+        input, button { font-size: 0.9rem; }
+      }
+      .summaryBlock {
+        .summaryRow { font-size: 0.9rem; }
+        .totalRow { font-size: 1.1rem; }
+      }
+      .btnBlock .checkoutBtn,
+      .btnBlock .continueBtn {
+        width: 100%;
+        padding: 0.75rem 0;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+/* ---------- Смартфоны (≤480px) ---------- */
+@media (max-width: 480px) {
+  .cartPage {
+    .container { padding: 0 0.5rem; }
+    .pageTitle { font-size: 1.25rem; }
+    .leftColumn {
+      .cartItem { padding: 0.5rem 0; }
+      .itemInfo .itemImage { width: 50px; height: 50px; }
+      .itemDetails {
+        .titleRow .itemName { font-size: 0.95rem; }
+        .paramRow { font-size: 0.8rem; }
+      }
+      .itemsGap {
+        .priceCol { font-size: 0.9rem; }
+        .actionsCol button { font-size: 12px; }
+      }
+    }
+    .rightColumn {
+      .deliveryBlock .labels .tab { font-size: 0.8rem; }
+      .deliveryBlock .deliveryDate { font-size: 0.75rem; }
+      .promoBlock .promoRow input,
+      .promoBlock .promoRow button { font-size: 0.8rem; }
+      .summaryBlock .summaryRow { font-size: 0.8rem; }
+      .btnBlock .checkoutBtn,
+      .btnBlock .continueBtn { font-size: 0.9rem; }
+    }
+  }
+}
+
+/* ---------- Очень маленькие телефоны (≤375px) ---------- */
+@media (max-width: 375px) {
+  .cartPage {
+    .container { padding: 0 0.5rem; }
+    .pageTitle { font-size: 1.15rem; }
+    .leftColumn {
+      .itemInfo .itemImage { width: 50px; height: 50px; }
+      .itemDetails .titleRow .itemName { font-size: 0.9rem; }
+      .itemsGap {
+        .priceCol { font-size: 0.85rem; }
+        .actionsCol button { font-size: 12px; }
+      }
+    }
+    .rightColumn {
+      .deliveryBlock .labels .tab { font-size: 0.8rem; }
+      .deliveryBlock .deliveryDate { font-size: 0.75rem; }
+      .promoBlock .promoRow input,
+      .promoBlock .promoRow button { font-size: 0.8rem; }
+      .summaryBlock .summaryRow { font-size: 0.8rem; }
+      .btnBlock .checkoutBtn,
+      .btnBlock .continueBtn {
+        font-size: 0.9rem;
+        padding: 0.6rem 0;
+      }
+    }
+  }
+}
+
+/* ---------- Самые узкие экраны (≤320px) ---------- */
+@media (max-width: 320px) {
+  .cartPage {
+    .pageTitle { font-size: 1.1rem; }
+    .leftColumn {
+      .itemInfo .itemImage { width: 45px; height: 45px; }
+      .itemDetails .titleRow .itemName { font-size: 0.85rem; }
+      .itemsGap {
+        .priceCol { font-size: 0.8rem; }
+        .actionsCol button { font-size: 11px; }
+      }
+    }
+    .rightColumn {
+      .deliveryBlock .labels .tab { font-size: 0.75rem; }
+      .deliveryBlock .deliveryDate { font-size: 0.7rem; }
+      .promoBlock .promoRow input,
+      .promoBlock .promoRow button { font-size: 0.75rem; }
+      .summaryBlock .summaryRow { font-size: 0.75rem; }
+      .btnBlock .checkoutBtn,
+      .btnBlock .continueBtn {
+        font-size: 0.85rem;
+        padding: 0.5rem 0;
+      }
+    }
+  }
+}

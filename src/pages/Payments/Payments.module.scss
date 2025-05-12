@@ -1,0 +1,108 @@
+// Файл: frontend/src/pages/Payments/Payments.module.scss
+
+.paymentsPage {
+    background: #fff;
+    padding: 20px;
+    min-height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", sans-serif;
+  }
+  
+  /* Хлебные крошки */
+  .breadcrumbs {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 10px;
+  }
+  
+  /* Заголовок и кнопка «Add payment +» */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  
+    .addPaymentBtn {
+      border: 1px solid #d1d5db;
+      background: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s;
+  
+      &:hover {
+        background: #f3f4f6;
+      }
+    }
+  }
+  
+  /* Контейнер для карточек */
+  .cardsContainer {
+    display: flex;
+    gap: 40px; // Расстояние между карточками
+  }
+  
+  /* Оформление каждой карточки */
+  .card {
+    flex: 1;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px;
+  
+    .cardBrandLine {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+  
+    /* Небольшой "чип" для бренда (можно заменить на <img> логотип) */
+    .brandChip {
+      display: inline-block;
+      background: #f3f4f6;
+      color: #666;
+      font-size: 0.75rem;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  
+    .brandName {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #111;
+    }
+  
+    .cardInfo {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 12px;
+    }
+  
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+  
+    .actionLink {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+  
+      &:hover {
+        color: #111;
+      }
+    }
+  }
+  

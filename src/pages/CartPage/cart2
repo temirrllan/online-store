@@ -1,0 +1,405 @@
+/* Файл: src/pages/CartPage/CartPage.module.scss */
+
+/* Определяем переменные */
+$gray-border: #e2e2e2;
+$gray-light: #f8f8f8;
+$blue-brand: #5a31a2;
+$blue-hover: #753fd1;
+$green-stock: #34c759;
+$red-delete: #ff3b30;
+$black-text: #333;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cartPage {
+  background-color: #fff;
+  min-height: 100vh;
+  color: $black-text;
+  font-family: Arial, sans-serif;
+  padding-bottom: 40px;
+
+  /* Контейнер фиксированной ширины 1200px */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+   
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .mainContent {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+
+    /* Левая колонка – список товаров */
+    .leftColumn {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .cartItem {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        background-color: #fff;
+        animation: fadeIn 0.3s ease-out;
+        transition: box-shadow 0.3s;
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .itemInfo {
+          display: flex;
+          gap: 1rem;
+          .itemImage {
+            width: 100px;            /* или 120px — выберите оптимальный размер */
+      height: 100px;           /* тот же размер, чтобы картинка вписывалась */
+      object-fit: contain;     /* полностью вписывает изображение в блок */
+      object-position: center; /* центрирует изображение внутри блока */
+      border-radius: 8px;  
+          }
+          .itemDetails {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .titleRow {
+              .itemName {
+                font-size: 1rem;
+                font-weight: 600;
+              }
+            }
+            .paramRow {
+              display: flex;
+              gap: 1rem;
+              font-size: 0.9rem;
+              .inStock {
+                color: $green-stock;
+              }
+              .outOfStock {
+                color: $red-delete;
+              }
+            }
+            .quantityRow {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              button {
+                width: 30px;
+                height: 30px;
+                border: 1px solid $gray-border;
+                border-radius: 6px;
+                background: #fff;
+                cursor: pointer;
+                font-size: 1rem;
+                transition: background-color 0.2s, transform 0.2s;
+                &:hover {
+                  background: $gray-light;
+                  transform: scale(1.05);
+                }
+                &:disabled {
+                  cursor: not-allowed;
+                  opacity: 0.6;
+                }
+              }
+              span {
+                min-width: 20px;
+                text-align: center;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+
+        .priceCol {
+          font-size: 1rem;
+          font-weight: 500;
+          text-align: right;
+          padding: 0 1rem;
+        }
+
+        .actionsCol {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          button {
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s;
+
+            &.deleteBtn {
+              color: $red-delete;
+              &:hover {
+                background-color: #ffe6e6;
+                color: #c53024;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Правая колонка – доставка, промокод и итог */
+    .rightColumn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .deliveryBlock {
+        background-color: #fff;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        padding: 1rem;
+
+        h3 {
+          margin: 0;
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .deliveryBtns {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .deliveryBtn {
+          flex: 1;
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+          background-color: #fff;
+          border: 1px solid $gray-border;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s;
+          text-align: center;
+          &:hover {
+            background-color: $gray-light;
+          }
+        }
+
+        .activeDelivery {
+          border-color: $blue-brand;
+          color: $blue-brand;
+        }
+
+        .deliveryDate {
+          font-size: 0.85rem;
+          color: #777;
+        }
+      }
+
+      .promoBlock {
+        background-color: #fff;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        padding: 1rem;
+
+        h3 {
+          margin: 0;
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .promoRow {
+          display: flex;
+          gap: 0.5rem;
+          input {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid $gray-border;
+            border-radius: 6px;
+          }
+          button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border: 1px solid $blue-brand;
+            background-color: $blue-brand;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            &:hover {
+              background-color: $blue-hover;
+            }
+          }
+        }
+      }
+
+      .summaryBlock {
+        background-color: #fff;
+        border: 1px solid $gray-border;
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .summaryRow {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.95rem;
+        }
+
+        .totalRow {
+          margin-top: 0.5rem;
+          font-weight: bold;
+          font-size: 1rem;
+        }
+      }
+
+      .btnBlock {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .checkoutBtn {
+          padding: 0.75rem 1rem;
+          background-color: $blue-brand;
+          color: #fff;
+          border-radius: 8px;
+          border: none;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background-color 0.2s, transform 0.2s;
+          &:hover {
+            background-color: $blue-hover;
+            transform: translateY(-1px);
+          }
+        }
+
+        .continueBtn {
+          padding: 0.75rem 1rem;
+          background-color: #fff;
+          color: $blue-brand;
+          font-size: 1rem;
+          border: 1px solid $blue-brand;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+          &:hover {
+            background-color: $gray-light;
+          }
+        }
+      }
+    }
+  }
+
+  /* Модальное окно (если оформляется заказ) */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .modalContent {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    min-width: 300px;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeIn 0.3s ease-out;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .formGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        label {
+          font-weight: 500;
+        }
+
+        input,
+        textarea {
+          padding: 0.5rem;
+          border: 1px solid $gray-border;
+          border-radius: 6px;
+          transition: border-color 0.2s;
+          &:focus {
+            border-color: $blue-brand;
+          }
+        }
+      }
+
+      .totalBlock {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.95rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid $gray-border;
+      }
+
+      .modalButtons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        button {
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        button[type="button"] {
+          background-color: #ccc;
+          &:hover {
+            background-color: #bbb;
+          }
+        }
+
+        button[type="submit"] {
+          background-color: $blue-brand;
+          color: #fff;
+          &:hover {
+            background-color: $blue-hover;
+          }
+        }
+      }
+    }
+  }
+}

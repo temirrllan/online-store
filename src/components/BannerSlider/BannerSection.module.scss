@@ -1,0 +1,120 @@
+.banner {
+  width: 100%;
+  background-color: #ffffff;
+  margin-top: 50px;
+}
+
+.bannerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #000000;
+  border-radius: 10px;
+  position: relative; /* чтобы расположить .marqueeWrapper поверх/внутри */
+}
+
+/* Стандартный текст (для десктопа) */
+.bannerText {
+  color: #fff;
+  max-width: 600px;
+
+  h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+    color: #fbff00;
+  }
+  p {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+}
+
+/* Картинка (для десктопа) */
+.bannerImage {
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  top: 45px;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+/* Блок для непрерывной бегущей строки */
+.marqueeWrapper {
+  display: none;          /* По умолчанию скрываем на десктопе */
+  overflow: hidden;       /* Прячем то, что выходит за границы */
+  width: 100%;            /* Растягиваем по ширине контейнера */
+  background: #6f3dc7;    /* Фон под бегущей строкой, если нужно */
+  // margin-top: 1rem;       /* Отступ сверху (опционально) */
+  border-radius: 10px;    /* Скругление (опционально) */
+}
+
+.marqueeContent {
+  display: inline-block;
+  /* Ширина контента больше 100%, чтобы вмещать две копии текста */
+  white-space: nowrap;
+  animation: scrollLeftToRight 25s linear infinite;
+  
+  span {
+    display: inline-block;
+    font-size: 20px;
+    color: #fff;
+    /* Добавим небольшой отступ между повторами */
+    margin-right: 50px;
+  }
+}
+
+/* Ключевые кадры анимации:
+   сдвигаем весь .marqueeContent 
+   от -100% (полностью за левым краем) до +100% (полностью за правым краем) */
+@keyframes scrollLeftToRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* --- Адаптив для экранов до 1024px --- */
+@media (max-width: 1024px) {
+  .banner {
+    width: 100vw;
+    margin-top: 0;
+    margin-top: 20px;
+  }
+
+  .bannerInner {
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #6f3dc7;
+  }
+
+  /* Скрываем классический текст и картинку */
+  .bannerText,
+  .bannerImage {
+    display: none;
+  }
+
+  /* Показываем нашу бегущую строку */
+  .marqueeWrapper {
+    display: block;
+  }
+}

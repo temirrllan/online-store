@@ -1,0 +1,292 @@
+@use "sass:color";
+
+// Цвета
+$gray-border:   #e5e7eb;
+$gray-bg:       #f9fafb;
+$gray-text:     #505050;
+$black:         #000000;
+$blue-light:    #eef2ff;
+$blue-text:     #4f46e5;
+$green-light:   #dcfce7;
+$green-text:    #15803d;
+$btn-border:    #d1d5db;
+
+// Обёртка страницы
+.ordersPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #fff;
+  overflow-x: hidden; // запрещаем вылазить по горизонтали
+  margin-bottom: 20px;
+}
+
+// Хлебные крошки
+.breadcrumbs {
+  font-size: 0.875rem;
+  color: $gray-text;
+  margin-bottom: 8px;
+
+  a {
+    text-decoration: none;
+    color: $gray-text;
+    &:hover { text-decoration: underline; }
+  }
+  .sep { margin: 0 8px; }
+}
+
+// Заголовок
+.pageTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: $black;
+  margin-bottom: 24px;
+}
+
+// Карточка заказа
+.orderCard {
+  background: #fff;
+  border: 1px solid $gray-border;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  overflow-x: auto; // локальный скролл, если что слишком широкое
+}
+
+// Шапка
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  > * { min-width: 0; }
+}
+
+.orderID {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $black;
+}
+
+.orderActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  > * { min-width: 0; }
+}
+
+// Статус
+.deliveryStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 6px;
+
+  &.estimated { background: $blue-light; color: $blue-text; }
+  &.delivered { background: $green-light; color: $green-text; }
+
+  .statusIcon { font-size: 1rem; }
+}
+
+// Кнопки
+.btn {
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  background: #fff;
+  color: $black;
+  border: 1px solid $btn-border;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #f3f4f6; }
+}
+.trackBtn {
+  background: $blue-text;
+  color: #fff;
+  border-color: $blue-text;
+  &:hover { background: darken($blue-text, 5%); }
+}
+
+// Детали заказа
+.orderDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  margin-bottom: 16px;
+
+  > div {
+    display: flex;
+    gap: 40px;
+    padding: 8px 0;
+    border-bottom: 1px dashed $gray-border;
+    font-size: 0.95rem;
+    color: $gray-text;
+  }
+  .orderGap { width: 150px; }
+  .detailLabel { font-weight: 600; color: $black; margin-right: 4px; }
+
+  // Мобильный режим: показываем только первую строку (Order date)
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+    > div { display: none; }
+    > div:first-of-type {
+      display: flex;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px dashed $gray-border;
+    }
+  }
+}
+
+// Список товаров
+.productList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 1px solid $gray-border;
+  padding-top: 16px;
+}
+
+// Элемент товара
+.productItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;    // НЕ даём переноситься
+  gap: 12px;
+
+  > * { min-width: 0; }
+}
+
+// Левая часть (инфо)
+.productInfo {
+  flex: 1;             // занимает всё доступное пространство
+  display: flex;
+  align-items: flex-start;  gap: 12px;
+}
+
+// «Картинка»
+.productImage {
+  width: 64px;
+  height: 64px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  flex-shrink: 0; 
+}
+
+// Текст
+.productText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.productName { font-size: 1rem; font-weight: 600; color: $black; }
+.productSpecs { font-size: 0.9rem; color: $gray-text; }
+
+// Правая часть (цена + qty)
+.productMeta {
+  flex-shrink: 0;      // не ужимаемая
+  text-align: right;
+}
+.productPrice {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $black;
+}
+.productQty {
+  font-size: 0.85rem;
+  color: $gray-text;
+}
+
+// Адаптив до 768px
+@media (max-width: 768px) {
+  .ordersPage { padding: 16px 12px; }
+  .breadcrumbs { display: none; }
+  .pageTitle { font-size: 1.5rem; margin-bottom: 16px; }
+  .orderCard { padding: 16px; margin-bottom: 16px; }
+
+  .orderHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .orderID { font-size: 1.25rem; }
+  .orderActions {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn, .trackBtn { width: 100%; text-align: center; }
+
+  .productList {
+    gap: 12px;
+    padding-top: 12px;
+  }
+}
+/* ============ Улучшенная адаптация до 425px ============ */
+@media (max-width: 425px) {
+  .productItem {
+    /* Карточка в столбик */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0;
+    gap: 8px;
+  }
+
+  .productInfo {
+    /* Изображение + текст в строку */
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .productImage {
+    flex: 0 0 auto;
+  }
+
+  .productText {
+    /* Текст растягивается, но не слишком узко */
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .productName {
+    /* Одна строка, многоточие при переполнении */
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .productSpecs {
+    /* Позволяем спецификациям переноситься по словам */
+    font-size: 0.9rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    color: $gray-text;
+  }
+
+  .productMeta {
+    /* Цена и qty — на отдельной строке, по краям */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0;
+    font-size: 0.85rem;
+    color: $gray-text;
+  }
+}

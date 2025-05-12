@@ -1,0 +1,51 @@
+/* File: src/components/UI/ErrorMessage/Error.module.scss */
+
+.errorWrapper {
+  position: fixed;
+  inset: 0;                       // top:0; right:0; bottom:0; left:0
+  background: rgba(0, 0, 0, 0.4); // полупрозрачный фон
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;                  // поверх всего
+}
+
+.errorMessage {
+  position: relative;
+  background: #fff;
+  padding: 20px 24px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 90%;
+  width: 360px;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+}
+
+.errorTitle {
+  flex: 1;
+  font-size: 1rem;
+  color: #333;
+}
+
+.errorClose {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(0,0,0,0.05);
+  }
+}

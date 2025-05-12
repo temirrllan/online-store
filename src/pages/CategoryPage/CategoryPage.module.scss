@@ -1,0 +1,373 @@
+// File: frontend/src/pages/CategoryPage/CategoryPage.module.scss
+
+@use "sass:color";
+
+$primary-color:    #6f3dc7;
+$primary-hover:    #5a31a2;
+$bg-light:         #f9f9f9;
+$border-color:     #eee;
+$text-color:       #333;
+$gray-text:        #666;
+$light-gray:       #f2f2f2;
+
+.categoryPage {
+  background: #fff;
+
+  // ────────────────────────────────────
+  // Mobile header (до 768px)
+  // ────────────────────────────────────
+  .mobileHeader {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: $primary-color;
+    color: #fff;
+    // вот этот отступ гарантирует, что под хедером окажется пустое пространство
+    margin-bottom: 12px;
+
+    .backBtn,
+    .mobileFilterBtn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .mobileTitle {
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
+      flex: 1;
+    }
+  }
+
+  // ────────────────────────────────────
+  // Desktop header (от 769px и выше)
+  // ────────────────────────────────────
+  .desktopHeader {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 20px;
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: $gray-text;
+      margin-bottom: 8px;
+
+      a {
+        color: $primary-color;
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
+      }
+
+      .separator { margin: 0 5px; }
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 600;
+      color: $text-color;
+      margin: 0;
+    }
+  }
+
+  // ────────────────────────────────────
+  // Main content wrapper
+  // ────────────────────────────────────
+  .content {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  // ────────────────────────────────────
+  // Filters sidebar
+  // ────────────────────────────────────
+  .filters {
+    width: 240px;
+    background: $bg-light;
+    border: 1px solid $border-color;
+    border-radius: 6px;
+    padding: 16px;
+    overflow-y: auto;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+
+   
+    .filterGroup { margin-bottom: 16px; }
+    .filtersTitle {
+      margin-bottom: 8px;
+      color: $text-color;
+      font-size: 16px;
+    }
+    .filtersList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li { margin-bottom: 6px; }
+    }
+    .checkboxLabel {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: $text-color;
+      input { cursor: pointer; }
+    }
+    .rangeFilter {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      input {
+        width: 80px;
+        padding: 4px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        outline: none;
+        &:focus { border-color: $primary-color; }
+      }
+      .rangeInfo {
+        font-size: 13px;
+        color: $gray-text;
+      }
+    }
+  }
+
+  // ────────────────────────────────────
+  // Products area
+  // ────────────────────────────────────
+  .productsArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    // обеспечиваем дополнительное пространство снизу для пагинации
+    padding-bottom: 80px;
+
+    .topBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      .sorting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        label { color: $text-color; }
+        select {
+          padding: 6px;
+          border: 1px solid $border-color;
+          border-radius: 4px;
+          outline: none;
+          &:focus { border-color: $primary-color; }
+        }
+      }
+
+      .viewToggle {
+        display: flex;
+        gap: 8px;
+        .viewBtn {
+          width: 32px;
+          height: 32px;
+          border: 1px solid $border-color;
+          background: #fff;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.2s;
+          svg { fill: $gray-text; }
+          &.active {
+            background: $primary-color;
+            border-color: $primary-color;
+            svg { fill: #fff; }
+          }
+          &:hover:not(.active) { background: $light-gray; }
+        }
+      }
+    }
+
+    .productsGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .productsList {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .productCard {
+      position: relative;
+      border: 1px solid $border-color;
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .productLabel {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: $primary-color;
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .favBtn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        background: $bg-light;
+        border: 1px solid $border-color;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s;
+        svg { width: 18px; height: 18px; color: #999; }
+        &:hover { background: #fff; }
+        &.favorited {
+          border-color: $primary-color;
+          svg { color: #e33d3d; }
+        }
+      }
+
+      .productImage {
+        width: 100%;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
+      }
+
+      .productName {
+        font-size: 14px;
+        color: $text-color;
+        margin-bottom: 8px;
+        min-height: 40px;
+      }
+
+      .productPrice {
+        margin-bottom: 12px;
+        font-weight: 600;
+        .oldPrice {
+          text-decoration: line-through;
+          color: #999;
+          margin-right: 6px;
+        }
+        .currentPrice { color: $text-color; }
+      }
+
+      .addToCartBtn {
+        display: inline-block;
+        margin: 12px auto 0;
+        padding: 8px 16px;
+        background-color: $primary-color;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        &:hover { background-color: $primary-hover; }
+        &.loading { background-color: #999; cursor: wait; }
+        &.added   { background-color: #28a745; transform: scale(1.03); }
+      }
+    }
+
+    .paginationWrapper {
+      margin-top: 24px;
+      text-align: center;
+      button {
+        margin: 0 4px;
+        padding: 6px 10px;
+        border: 1px solid $border-color;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        &.activePageBtn {
+          background: $primary-color;
+          color: #fff;
+          border-color: $primary-color;
+        }
+        &:disabled {
+          opacity: 0.5;
+          cursor: default;
+        }
+      }
+      .paginationInfo {
+        margin-top: 8px;
+        color: $gray-text;
+        font-size: 14px;
+      }
+    }
+  }
+
+  // ────────────────────────────────────
+  // Media Queries
+  // ────────────────────────────────────
+  @media (min-width: 769px) {
+    .mobileHeader  { display: none; }
+    .desktopHeader { display: flex; }
+  }
+
+  @media (max-width: 768px) {
+    .mobileHeader   { display: flex; }
+    .desktopHeader  { display: none; }
+    .content        { flex-direction: column; padding: 0; }
+    // на мобилке — выдвижной фильтр поверх контента
+    .filters {
+      position: fixed;
+      top: 48px;               // под мобильным хедером
+      left: 0;
+      height: calc(100% - 48px);
+      transform: translateX(-100%);
+      background: #fff;
+      z-index: 1000;
+
+      &.filtersOpen { transform: translateX(0); }
+    }
+
+    .productsArea .topBar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 0 20px;
+    }
+
+    .productsGrid,
+    .productsList {
+      padding: 0 20px;
+    }
+  }
+}

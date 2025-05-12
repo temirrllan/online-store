@@ -1,0 +1,15 @@
+/* src/components/Header/Logo.module.scss */
+$primary: #8546f3;
+$secondary: #5a31a2;
+$transition: 0.3s;
+
+.logoLink {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: $primary;
+  text-decoration: none;
+  transition: color $transition;
+  &:hover {
+    color: $secondary;
+  }
+}

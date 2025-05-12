@@ -1,0 +1,232 @@
+/* File: frontend/src/components/Header/Header.module.scss */
+
+$primary-color:   #8546f3;
+$secondary-color: #5a31a2;
+$text-color:      #333;
+$light-gray:      #f8f8f9;
+$border-gray:     #e2e2e2;
+$transition:      0.3s;
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid $border-gray;
+  position: relative;
+  z-index: 100;
+
+  .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 64px;              /* вернём прежнюю высоту */
+  }
+
+  /* логотип */
+  .logoLink {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.8rem;
+    color: $primary-color;
+    text-decoration: none;
+    transition: color $transition;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  /* строка поиска */
+  .searchWrapper {
+    flex: 1;
+    margin: 0 24px;
+    max-width: 600px;
+
+    /* сами стили инпута берутся из вашего SearchBar */
+    /* но если нужно, можно «точечно» переопределить: */
+    input {
+      width: 100%;
+      height: 36px;
+      padding: 0 14px;
+      border: 1px solid #ddd;
+      border-radius: 18px;
+      background: $light-gray;
+      transition: border-color $transition;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+    }
+  }
+
+  /* обычная навигация */
+  .nav {
+    display: flex;
+    gap: 24px;
+
+    @media (max-width: 1200px) {
+      display: none;
+    }
+
+    .navItem {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: $text-color;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 4px 0;
+      transition: color $transition, transform $transition;
+
+      &:hover,
+      &.active {
+        color: $primary-color;
+        transform: translateY(-1px);
+      }
+
+      .navIcon {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  /* бургер для планшетов */
+  .burger {
+    display: none;
+    font-size: 1.5rem;
+    color: $primary-color;
+    cursor: pointer;
+
+    @media (max-width: 1200px) {
+      display: block;
+    }
+  }
+}
+
+/* планшетное выдвижное меню */
+.mobileMenu {
+  position: fixed;
+  top: 0; left: 0;
+  width: 80%; max-width: 300px;
+  height: 100%;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  transform: translateX(-100%);
+  transition: transform $transition ease;
+  z-index: 200;
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  .menuContent {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+  }
+
+  .closeBtn {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color $transition;
+
+    &:hover {
+      color: rgba(255,255,255,0.7);
+    }
+  }
+
+  .mobileNav {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .navItem {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 0.6rem;
+      border-radius: 4px;
+      transition: background $transition;
+
+      &:hover {
+        background: rgba(255,255,255,0.15);
+      }
+
+      .navIcon {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 150;
+  }
+}
+
+/* мобильное футер‑меню */
+.mobileFooter {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #fff;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+    justify-content: space-around;
+    padding: 0.6rem 0;
+    z-index: 100;
+
+    .footerItem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: $text-color;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color $transition;
+
+      &:hover {
+        color: $primary-color;
+      }
+
+      svg {
+        font-size: 1.3rem;
+        margin-bottom: 0.2rem;
+      }
+    }
+  }
+}
+
+/* адаптив для совсем маленьких экранов (<768px) */
+@media (max-width: 768px) {
+  .header .inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    height: auto;
+  }
+
+  /* в этом режиме спрячем планшетный бургер */
+  .header .burger {
+    display: none;
+  }
+
+  .header .searchWrapper {
+    width: 100%;
+    padding: 0 16px;
+  }
+}
