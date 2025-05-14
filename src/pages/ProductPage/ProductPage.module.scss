@@ -26,6 +26,13 @@ $green:          #34c759;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+     @media (max-width: 768px) {
+    padding-bottom: 60px;
+  }
+
+  @media (max-width: 480px) {
+    padding-bottom: 40px;
+  }
   }
 
   /* Хлебные крошки */
@@ -339,7 +346,7 @@ $green:          #34c759;
 
   /* Смартфоны: до 480px */
   @media (max-width: 480px) {
-    .container { padding: 0 12px; }
+    .container { padding: 0 12px;  }
  .left {
     .mainImage {
     width: 100%;         // теперь будет растягиваться не больше контейнера
