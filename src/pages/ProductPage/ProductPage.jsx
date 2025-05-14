@@ -262,11 +262,11 @@ function ProductPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </div> <ProductReviews productId={productId} /> </div>
         </div>
      
 
-      <ProductReviews productId={productId} /> </div>
+     
     </div>
   );
 }
