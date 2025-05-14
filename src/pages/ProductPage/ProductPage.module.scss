@@ -342,11 +342,14 @@ $green:          #34c759;
     .container { padding: 0 12px; }
  .left {
     .mainImage {
-      /* Вместо фиксированного max-width:480px даём 100% контейнера */
-      max-width: 100%;
-      width: 100%;
-      /* height:auto уже у вас стоит — сохраняем пропорции */
-    }
+    width: 100%;         // теперь будет растягиваться не больше контейнера
+    max-width: 480px;    // но не больше «десктопного» лимита
+    height: auto;
+    max-height: 500px;
+    border-radius: 8px;
+    object-fit: contain;
+    margin: 0 auto;
+  }
   }
     .name     { font-size: 22px; }
     .priceBox { font-size: 20px; }
