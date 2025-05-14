@@ -340,7 +340,14 @@ $green:          #34c759;
   /* Смартфоны: до 480px */
   @media (max-width: 480px) {
     .container { padding: 0 12px; }
-
+ .left {
+    .mainImage {
+      /* Вместо фиксированного max-width:480px даём 100% контейнера */
+      max-width: 100%;
+      width: 100%;
+      /* height:auto уже у вас стоит — сохраняем пропорции */
+    }
+  }
     .name     { font-size: 22px; }
     .priceBox { font-size: 20px; }
     .meta,
@@ -350,6 +357,7 @@ $green:          #34c759;
       justify-content: flex-start;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
 
     /* И здесь .actions остаётся в одну строку */
