@@ -175,6 +175,13 @@ updateCartQuantity: builder.mutation({
       providesTags: ["Filters"],
       keepUnusedDataFor: 300,
     }),
+googleAuth: builder.mutation({
+  query: ({ idToken }) => ({
+    url: 'api/auth/google', // или '/api/auth/google' если baseUrl указывает на корень API
+    method: 'POST',
+    body: { idToken }
+  })
+}),
 
     getProductReviews: builder.query({
       query: ({ productId, page = 1, pageSize = 10 }) => ({
@@ -217,5 +224,7 @@ export const {
   useSearchProductsMutation,
   useCreateOrderMutation,
   useGetProductFiltersQuery, 
-  useGetProductReviewsQuery
+  useGetProductReviewsQuery,
+  useGoogleAuthMutation,
+
 } = apiSlice;
