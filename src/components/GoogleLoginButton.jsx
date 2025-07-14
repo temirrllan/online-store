@@ -6,16 +6,17 @@ export default function GoogleLoginButton() {
 
   const handleCallbackResponse = async (response) => {
     const idToken = response.credential;
+    console.log('Google idToken:', idToken); // для отладки
     try {
       const result = await googleAuth({ idToken }).unwrap();
       if (result.token) {
         localStorage.setItem('token', result.token);
         window.location.href = '/';
       } else {
-        alert('Ошибка: не получен токен приложения!');
+        alert('Ошибка: не получен токен приложения');
       }
     } catch (e) {
-      alert('Ошибка входа через Google!');
+      alert('Ошибка входа через Google');
       console.error(e);
     }
   };
