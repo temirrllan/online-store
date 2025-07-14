@@ -22,6 +22,8 @@ export default function GoogleLoginButton() {
 
   const handleGoogleResponse = async (response) => {
     // response.credential — это id_token
+      console.log("GOOGLE ID TOKEN:", response.credential); // <-- ДОБАВЬ ЭТО!
+
     try {
       const result = await googleAuth({ idToken: response.credential }).unwrap();
       // result — твой JWT и данные пользователя
