@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Добавляем useN
 import { registerUser } from '../../api/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-
+import GoogleLoginButton from "../../components/GoogleLoginButton";
 
 function RegistrationPage() {
     const navigate = useNavigate(); // Хук для перенаправления
@@ -220,7 +220,7 @@ function RegistrationPage() {
   </div>
 
 </form>
-
+<GoogleLoginButton />
 
 
       </div>
