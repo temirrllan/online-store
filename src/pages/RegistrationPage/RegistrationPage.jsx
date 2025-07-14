@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom'; // Добавляем useN
 import { registerUser } from '../../api/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import GoogleLoginButton from './../../components/GoogleLoginButton';
 
 
 function RegistrationPage() {
@@ -219,7 +218,7 @@ function RegistrationPage() {
   <div className={styles.bottomLink}>
     Have an account? <Link to="/login">Log In</Link>
   </div>
-  <GoogleLoginButton />
+
 </form>
 
 
