@@ -177,7 +177,7 @@ updateCartQuantity: builder.mutation({
     }),
 googleAuth: builder.mutation({
   query: ({ idToken }) => ({
-    url: "/api/auth/google", // смотри на свой baseUrl!
+    url: "/auth/google", // смотри на свой baseUrl!
     method: "POST",
     body: { idToken },
   }),
