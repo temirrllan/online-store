@@ -69,7 +69,7 @@ function RegistrationPage() {
         });
     
         console.log('Ответ от сервера:', response);
-    
+  
         setFormData({
           username: '',
           password: '',
